@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Video Hero</title>
+<title>Video Hero KAI</title>
 
 <style>
 
@@ -14,10 +14,13 @@
     box-sizing:border-box;
 }
 
+html,
 body{
-    background:#000;
+    width:100%;
+    height:100%;
     overflow:hidden;
-    font-family:Arial, sans-serif;
+    font-family:Arial,sans-serif;
+    background:#000;
 }
 
 .hero{
@@ -26,61 +29,172 @@ body{
     height:100vh;
 }
 
+/* VIDEO */
+
 #video{
     width:100%;
     height:100%;
     object-fit:cover;
 }
 
-.controls{
+/* OVERLAY */
+
+.overlay{
     position:absolute;
-    bottom:20px;
+    inset:0;
+    background:
+    linear-gradient(
+        rgba(0,0,0,.15),
+        rgba(0,0,0,.45)
+    );
+}
+
+/* CONTROL BAR */
+
+.controls{
+
+    position:absolute;
+
     left:50%;
+    bottom:20px;
+
     transform:translateX(-50%);
+
+    width:min(95%,1000px);
+
+    background:rgba(0,0,0,.65);
+
+    backdrop-filter:blur(10px);
+
+    border-radius:16px;
+
+    padding:14px;
+
+    color:white;
+
+    opacity:0;
+    pointer-events:none;
+
+    transition:.3s;
+
+}
+
+.controls.show{
+
+    opacity:1;
+    pointer-events:auto;
+
+}
+
+/* PROGRESS */
+
+.progress-wrapper{
+
+    width:100%;
+    margin-bottom:10px;
+
+}
+
+#progress{
+
+    width:100%;
+    cursor:pointer;
+
+}
+
+/* ROW */
+
+.row{
 
     display:flex;
     align-items:center;
     gap:10px;
+    flex-wrap:wrap;
 
-    background:rgba(0,0,0,0.65);
-    backdrop-filter:blur(10px);
-
-    padding:12px 18px;
-    border-radius:50px;
-
-    color:white;
-    z-index:100;
 }
 
+/* BUTTON */
+
 button{
+
     border:none;
-    background:rgba(255,255,255,0.15);
+
+    background:rgba(255,255,255,.15);
+
     color:white;
+
     padding:8px 14px;
+
     border-radius:8px;
+
     cursor:pointer;
+
+    transition:.2s;
+
 }
 
 button:hover{
-    background:rgba(255,255,255,0.25);
+
+    background:rgba(255,255,255,.25);
+
 }
+
+/* VOLUME */
+
+#volume{
+
+    width:120px;
+    cursor:pointer;
+
+}
+
+/* SELECT */
 
 select{
-    border:none;
-    border-radius:6px;
+
     padding:6px;
+
+    border:none;
+
+    border-radius:6px;
+
 }
 
-input[type="range"]{
-    width:120px;
+/* TIME */
+
+#time{
+
+    min-width:100px;
+    font-size:13px;
+
 }
 
-.label{
-    font-size:14px;
+/* MOBILE */
+
+@media(max-width:768px){
+
+    .controls{
+
+        width:95%;
+        padding:10px;
+
+    }
+
+    #volume{
+
+        width:80px;
+
+    }
+
+    button{
+
+        padding:6px 10px;
+
+    }
+
 }
 
 </style>
-
 </head>
 
 <body>
@@ -88,41 +202,94 @@ input[type="range"]{
 <div class="hero">
 
     <!-- GANTI LINK VIDEO -->
-    <video id="video" autoplay muted loop playsinline>
-        <source src="selayang pandang.mp4" type="video/mp4">
+    <video
+        id="video"
+        autoplay
+        muted
+        loop
+        playsinline>
+
+        <source
+        src="selayang pandang.mp4"
+        type="video/mp4">
+
     </video>
+
+    <div class="overlay"></div>
 
     <div class="controls">
 
-        <button id="playPause">⏸</button>
+        <!-- Progress -->
 
-        <button id="muteBtn">🔇</button>
+        <div class="progress-wrapper">
 
-        <span class="label">Volume</span>
+            <input
+            type="range"
+            id="progress"
+            min="0"
+            max="100"
+            value="0">
 
-        <input
+        </div>
+
+        <div class="row">
+
+            <button id="playPause">
+                ⏸
+            </button>
+
+            <button id="muteBtn">
+                🔇
+            </button>
+
+            <span>Volume</span>
+
+            <input
             type="range"
             id="volume"
             min="0"
             max="100"
             value="100">
 
-        <span class="label">Speed</span>
+            <span>Speed</span>
 
-        <select id="speed">
+            <select id="speed">
 
-            <option value="0.5">0.5x</option>
-            <option value="0.75">0.75x</option>
-            <option value="1" selected>1x</option>
-            <option value="1.25">1.25x</option>
-            <option value="1.5">1.5x</option>
-            <option value="2">2x</option>
+                <option value="0.5">
+                    0.5x
+                </option>
 
-        </select>
+                <option value="0.75">
+                    0.75x
+                </option>
 
-        <button id="fullscreen">
-            ⛶
-        </button>
+                <option value="1" selected>
+                    1x
+                </option>
+
+                <option value="1.25">
+                    1.25x
+                </option>
+
+                <option value="1.5">
+                    1.5x
+                </option>
+
+                <option value="2">
+                    2x
+                </option>
+
+            </select>
+
+            <span id="time">
+                00:00 / 00:00
+            </span>
+
+            <button id="fullscreen">
+                ⛶
+            </button>
+
+        </div>
 
     </div>
 
@@ -130,91 +297,225 @@ input[type="range"]{
 
 <script>
 
-const video = document.getElementById('video');
+const video =
+document.getElementById("video");
 
-const muteBtn = document.getElementById('muteBtn');
-const playPause = document.getElementById('playPause');
-const volume = document.getElementById('volume');
-const speed = document.getElementById('speed');
-const fullscreen = document.getElementById('fullscreen');
+const controls =
+document.querySelector(".controls");
 
+const playPause =
+document.getElementById("playPause");
 
-// Mute Unmute
+const muteBtn =
+document.getElementById("muteBtn");
 
-muteBtn.addEventListener('click',()=>{
+const volume =
+document.getElementById("volume");
 
-    video.muted = !video.muted;
+const speed =
+document.getElementById("speed");
 
-    muteBtn.innerHTML =
-    video.muted ? '🔇' : '🔊';
+const progress =
+document.getElementById("progress");
 
-});
+const time =
+document.getElementById("time");
 
+const fullscreen =
+document.getElementById("fullscreen");
 
-// Volume
+/* PLAY PAUSE */
 
-volume.addEventListener('input',()=>{
-
-    video.volume = volume.value / 100;
-
-    if(volume.value == 0){
-
-        video.muted = true;
-        muteBtn.innerHTML = '🔇';
-
-    }else{
-
-        video.muted = false;
-        muteBtn.innerHTML = '🔊';
-
-    }
-
-});
-
-
-// Playback Speed
-
-speed.addEventListener('change',()=>{
-
-    video.playbackRate = speed.value;
-
-});
-
-
-// Play Pause
-
-playPause.addEventListener('click',()=>{
+playPause.addEventListener(
+"click",
+()=>{
 
     if(video.paused){
 
         video.play();
-        playPause.innerHTML = '⏸';
+
+        playPause.innerHTML =
+        "⏸";
 
     }else{
 
         video.pause();
-        playPause.innerHTML = '▶';
+
+        playPause.innerHTML =
+        "▶";
 
     }
 
 });
 
+/* MUTE */
 
-// Fullscreen
+muteBtn.addEventListener(
+"click",
+()=>{
 
-fullscreen.addEventListener('click',()=>{
+    video.muted =
+    !video.muted;
 
-    if(video.requestFullscreen){
+    muteBtn.innerHTML =
+    video.muted
+    ? "🔇"
+    : "🔊";
 
-        video.requestFullscreen();
+});
 
-    }else if(video.webkitRequestFullscreen){
+/* VOLUME */
 
-        video.webkitRequestFullscreen();
+volume.addEventListener(
+"input",
+()=>{
+
+    video.volume =
+    volume.value/100;
+
+    if(volume.value == 0){
+
+        video.muted = true;
+        muteBtn.innerHTML = "🔇";
+
+    }else{
+
+        video.muted = false;
+        muteBtn.innerHTML = "🔊";
 
     }
 
 });
+
+/* SPEED */
+
+speed.addEventListener(
+"change",
+()=>{
+
+    video.playbackRate =
+    speed.value;
+
+});
+
+/* PROGRESS */
+
+video.addEventListener(
+"timeupdate",
+()=>{
+
+    const percent =
+    (video.currentTime /
+    video.duration) * 100;
+
+    progress.value =
+    percent;
+
+    time.innerHTML =
+    formatTime(video.currentTime)
+    +
+    " / "
+    +
+    formatTime(video.duration);
+
+});
+
+/* SEEK */
+
+progress.addEventListener(
+"input",
+()=>{
+
+    const seekTime =
+    (progress.value/100)
+    *
+    video.duration;
+
+    video.currentTime =
+    seekTime;
+
+});
+
+/* FORMAT TIME */
+
+function formatTime(seconds){
+
+    if(isNaN(seconds))
+    return "00:00";
+
+    const min =
+    Math.floor(seconds/60);
+
+    const sec =
+    Math.floor(seconds%60);
+
+    return min
+    .toString()
+    .padStart(2,"0")
+    +
+    ":"
+    +
+    sec
+    .toString()
+    .padStart(2,"0");
+
+}
+
+/* FULLSCREEN */
+
+fullscreen.addEventListener(
+"click",
+()=>{
+
+    const hero =
+    document.querySelector(".hero");
+
+    if(hero.requestFullscreen){
+
+        hero.requestFullscreen();
+
+    }else if(
+        hero.webkitRequestFullscreen
+    ){
+
+        hero.webkitRequestFullscreen();
+
+    }
+
+});
+
+/* AUTO HIDE */
+
+let timeout;
+
+function showControls(){
+
+    controls.classList.add(
+    "show");
+
+    clearTimeout(timeout);
+
+    timeout =
+    setTimeout(()=>{
+
+        controls.classList.remove(
+        "show");
+
+    },3000);
+
+}
+
+document.addEventListener(
+"mousemove",
+showControls
+);
+
+document.addEventListener(
+"touchstart",
+showControls
+);
+
+showControls();
 
 </script>
 
