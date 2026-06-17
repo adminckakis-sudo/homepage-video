@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Video Hero KAI</title>
+<title>PT Kereta Api Indonesia</title>
 
 <style>
 
@@ -19,9 +19,10 @@ body{
     width:100%;
     height:100%;
     overflow:hidden;
-    font-family:Arial,sans-serif;
-    background:#000;
+    font-family:'Segoe UI',sans-serif;
 }
+
+/* HERO */
 
 .hero{
     position:relative;
@@ -31,7 +32,7 @@ body{
 
 /* VIDEO */
 
-#video{
+.hero video{
     width:100%;
     height:100%;
     object-fit:cover;
@@ -44,128 +45,138 @@ body{
     inset:0;
     background:
     linear-gradient(
-        rgba(0,0,0,.15),
-        rgba(0,0,0,.45)
+        rgba(0,0,0,.35),
+        rgba(0,0,0,.55)
     );
 }
 
-/* CONTROL BAR */
+/* CONTENT */
 
-.controls{
+.content{
 
     position:absolute;
 
+    top:50%;
     left:50%;
-    bottom:20px;
 
-    transform:translateX(-50%);
+    transform:
+    translate(-50%,-50%);
 
-    width:min(95%,1000px);
+    width:90%;
+    max-width:1000px;
 
-    background:rgba(0,0,0,.65);
-
-    backdrop-filter:blur(10px);
-
-    border-radius:16px;
-
-    padding:14px;
+    text-align:center;
 
     color:white;
 
-    opacity:0;
-    pointer-events:none;
-
-    transition:.3s;
+    z-index:10;
 
 }
 
-.controls.show{
+.content h1{
 
-    opacity:1;
-    pointer-events:auto;
+    font-size:58px;
+    font-weight:700;
 
-}
+    margin-bottom:20px;
 
-/* PROGRESS */
-
-.progress-wrapper{
-
-    width:100%;
-    margin-bottom:10px;
+    text-shadow:
+    0 2px 10px rgba(0,0,0,.5);
 
 }
 
-#progress{
+.content p{
 
-    width:100%;
-    cursor:pointer;
+    font-size:22px;
+    line-height:1.6;
 
-}
-
-/* ROW */
-
-.row{
-
-    display:flex;
-    align-items:center;
-    gap:10px;
-    flex-wrap:wrap;
+    text-shadow:
+    0 2px 10px rgba(0,0,0,.5);
 
 }
 
 /* BUTTON */
 
-button{
+.btn{
 
-    border:none;
+    display:inline-block;
 
-    background:rgba(255,255,255,.15);
+    margin-top:30px;
+
+    background:#ff7a00;
 
     color:white;
 
-    padding:8px 14px;
+    text-decoration:none;
 
-    border-radius:8px;
+    padding:14px 28px;
 
-    cursor:pointer;
+    border-radius:50px;
 
-    transition:.2s;
+    font-weight:600;
 
-}
-
-button:hover{
-
-    background:rgba(255,255,255,.25);
+    transition:.3s;
 
 }
 
-/* VOLUME */
+.btn:hover{
 
-#volume{
-
-    width:120px;
-    cursor:pointer;
+    background:#ff9000;
 
 }
 
-/* SELECT */
+/* CONTROLS */
 
-select{
+.controls{
 
-    padding:6px;
+    position:absolute;
+
+    right:20px;
+    bottom:20px;
+
+    display:flex;
+    gap:10px;
+
+    z-index:20;
+
+    background:
+    rgba(0,0,0,.55);
+
+    backdrop-filter:
+    blur(10px);
+
+    padding:10px;
+
+    border-radius:50px;
+
+}
+
+.controls button{
+
+    width:45px;
+    height:45px;
 
     border:none;
 
-    border-radius:6px;
+    border-radius:50%;
+
+    background:
+    rgba(255,255,255,.15);
+
+    color:white;
+
+    cursor:pointer;
+
+    font-size:18px;
+
+    transition:.3s;
 
 }
 
-/* TIME */
+.controls button:hover{
 
-#time{
-
-    min-width:100px;
-    font-size:13px;
+    background:
+    rgba(255,255,255,.3);
 
 }
 
@@ -173,24 +184,37 @@ select{
 
 @media(max-width:768px){
 
-    .controls{
+.content h1{
 
-        width:95%;
-        padding:10px;
+    font-size:34px;
 
-    }
+}
 
-    #volume{
+.content p{
 
-        width:80px;
+    font-size:16px;
 
-    }
+}
 
-    button{
+.btn{
 
-        padding:6px 10px;
+    padding:12px 24px;
 
-    }
+}
+
+.controls{
+
+    bottom:15px;
+    right:15px;
+
+}
+
+.controls button{
+
+    width:40px;
+    height:40px;
+
+}
 
 }
 
@@ -201,7 +225,7 @@ select{
 
 <div class="hero">
 
-    <!-- GANTI LINK VIDEO -->
+    <!-- GANTI DENGAN VIDEO ANDA -->
     <video
         id="video"
         autoplay
@@ -210,86 +234,43 @@ select{
         playsinline>
 
         <source
-        src="selayang pandang.mp4"
-        type="video/mp4">
+            src="selayang pandang.mp4"
+            type="video/mp4">
 
     </video>
 
     <div class="overlay"></div>
 
+    <div class="content">
+
+        <h1>
+            PT Kereta Api Indonesia (Persero)
+        </h1>
+
+        <p>
+            Menggerakkan transportasi berkelanjutan,
+            meningkatkan kualitas hidup masyarakat.
+        </p>
+
+        <a href="#" class="btn">
+            Selengkapnya
+        </a>
+
+    </div>
+
     <div class="controls">
 
-        <!-- Progress -->
+        <button id="playPause">
+            ⏸
+        </button>
 
-        <div class="progress-wrapper">
+        <button id="muteBtn">
+            🔇
+        </button>
 
-            <input
-            type="range"
-            id="progress"
-            min="0"
-            max="100"
-            value="0">
-
-        </div>
-
-        <div class="row">
-
-            <button id="playPause">
-                ⏸
-            </button>
-
-            <button id="muteBtn">
-                🔇
-            </button>
-
-            <span>Volume</span>
-
-            <input
-            type="range"
-            id="volume"
-            min="0"
-            max="100"
-            value="100">
-
-            <span>Speed</span>
-
-            <select id="speed">
-
-                <option value="0.5">
-                    0.5x
-                </option>
-
-                <option value="0.75">
-                    0.75x
-                </option>
-
-                <option value="1" selected>
-                    1x
-                </option>
-
-                <option value="1.25">
-                    1.25x
-                </option>
-
-                <option value="1.5">
-                    1.5x
-                </option>
-
-                <option value="2">
-                    2x
-                </option>
-
-            </select>
-
-            <span id="time">
-                00:00 / 00:00
-            </span>
-
-            <button id="fullscreen">
-                ⛶
-            </button>
-
-        </div>
+        <button id="fullscreen">
+            ⛶
+        </button>
 
     </div>
 
@@ -300,26 +281,11 @@ select{
 const video =
 document.getElementById("video");
 
-const controls =
-document.querySelector(".controls");
-
 const playPause =
 document.getElementById("playPause");
 
 const muteBtn =
 document.getElementById("muteBtn");
-
-const volume =
-document.getElementById("volume");
-
-const speed =
-document.getElementById("speed");
-
-const progress =
-document.getElementById("progress");
-
-const time =
-document.getElementById("time");
 
 const fullscreen =
 document.getElementById("fullscreen");
@@ -327,22 +293,20 @@ document.getElementById("fullscreen");
 /* PLAY PAUSE */
 
 playPause.addEventListener(
-"click",
+'click',
 ()=>{
 
     if(video.paused){
 
         video.play();
 
-        playPause.innerHTML =
-        "⏸";
+        playPause.innerHTML='⏸';
 
     }else{
 
         video.pause();
 
-        playPause.innerHTML =
-        "▶";
+        playPause.innerHTML='▶';
 
     }
 
@@ -351,124 +315,27 @@ playPause.addEventListener(
 /* MUTE */
 
 muteBtn.addEventListener(
-"click",
+'click',
 ()=>{
 
-    video.muted =
+    video.muted=
     !video.muted;
 
-    muteBtn.innerHTML =
+    muteBtn.innerHTML=
     video.muted
-    ? "🔇"
-    : "🔊";
+    ? '🔇'
+    : '🔊';
 
 });
-
-/* VOLUME */
-
-volume.addEventListener(
-"input",
-()=>{
-
-    video.volume =
-    volume.value/100;
-
-    if(volume.value == 0){
-
-        video.muted = true;
-        muteBtn.innerHTML = "🔇";
-
-    }else{
-
-        video.muted = false;
-        muteBtn.innerHTML = "🔊";
-
-    }
-
-});
-
-/* SPEED */
-
-speed.addEventListener(
-"change",
-()=>{
-
-    video.playbackRate =
-    speed.value;
-
-});
-
-/* PROGRESS */
-
-video.addEventListener(
-"timeupdate",
-()=>{
-
-    const percent =
-    (video.currentTime /
-    video.duration) * 100;
-
-    progress.value =
-    percent;
-
-    time.innerHTML =
-    formatTime(video.currentTime)
-    +
-    " / "
-    +
-    formatTime(video.duration);
-
-});
-
-/* SEEK */
-
-progress.addEventListener(
-"input",
-()=>{
-
-    const seekTime =
-    (progress.value/100)
-    *
-    video.duration;
-
-    video.currentTime =
-    seekTime;
-
-});
-
-/* FORMAT TIME */
-
-function formatTime(seconds){
-
-    if(isNaN(seconds))
-    return "00:00";
-
-    const min =
-    Math.floor(seconds/60);
-
-    const sec =
-    Math.floor(seconds%60);
-
-    return min
-    .toString()
-    .padStart(2,"0")
-    +
-    ":"
-    +
-    sec
-    .toString()
-    .padStart(2,"0");
-
-}
 
 /* FULLSCREEN */
 
 fullscreen.addEventListener(
-"click",
+'click',
 ()=>{
 
     const hero =
-    document.querySelector(".hero");
+    document.querySelector('.hero');
 
     if(hero.requestFullscreen){
 
@@ -483,39 +350,6 @@ fullscreen.addEventListener(
     }
 
 });
-
-/* AUTO HIDE */
-
-let timeout;
-
-function showControls(){
-
-    controls.classList.add(
-    "show");
-
-    clearTimeout(timeout);
-
-    timeout =
-    setTimeout(()=>{
-
-        controls.classList.remove(
-        "show");
-
-    },3000);
-
-}
-
-document.addEventListener(
-"mousemove",
-showControls
-);
-
-document.addEventListener(
-"touchstart",
-showControls
-);
-
-showControls();
 
 </script>
 
